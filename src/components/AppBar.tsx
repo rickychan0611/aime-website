@@ -9,6 +9,13 @@ type Props = {}
 const AppBar = (props: Props) => {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
+
+  const login = () => {
+    const from = localStorage.getItem("from")
+    const forId = localStorage.getItem("for")
+    router.push(H5_URL + "?from=" + from + "&for=" + forId)
+  }
+
   return (
     <div className='fixed flex flex-1 w-full h-[80px] flex-row justify-between items-center p-2 z-50 text-white bg-[#2B2E39]'
     >
@@ -68,10 +75,14 @@ const AppBar = (props: Props) => {
             <Globe />
             <p>EN</div>
           </div> */}
-          <div onClick={() => router.push(H5_URL)} className="cursor-pointer text-center">
+          <div onClick={() => {
+            login()
+          }} className="cursor-pointer text-center">
             LOG IN</div>
           <div className='px-4 py-1 rounded cursor-pointer text-center'
-            onClick={() => router.push(H5_URL)}
+            onClick={() => {
+              login()
+            }}
             style={{
               backgroundImage: "linear-gradient(to right, #FF1CF7, #00F0FF)",
             }}>Sign up</div>

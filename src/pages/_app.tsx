@@ -28,22 +28,30 @@ export default function App({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
 
   const router = useRouter();
-
+  
   useEffect(() => {
-    const userAgent = navigator.userAgent;
+    if (router.isReady) {
+      const query = router.query;
+      const from = query.from
+      const forId = query.for
+      forId && localStorage.setItem("from", from + "")
+      forId && localStorage.setItem("for", forId + "")
 
-    // Detect platform
-    let platform = "Unknown";
+      const userAgent = navigator.userAgent;
+      // Detect platform
+      let platform = "Unknown";
 
-    if (/android/i.test(userAgent)) {
-      platform = "Android";
-    } else if (/iPad|iPhone|iPod/.test(userAgent)) {
-      platform = "iOS";
+      if (/android/i.test(userAgent)) {
+        platform = "Android";
+      } else if (/iPad|iPhone|iPod/.test(userAgent)) {
+        platform = "iOS";
+      }
+
+      if (platform === "iOS" || platform === "Android") {
+        router.push(H5_URL + "?from=" + from + "&forId=" + forId)
+      }
     }
-
-    if (platform === "iOS" || platform === "Android")  router.push(H5_URL)
-    
-  }, []);
+  }, [router.isReady]);
 
   return (
     <>
